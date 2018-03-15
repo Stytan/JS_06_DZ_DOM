@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+</head>
+<style>
+    table {
+        border-collapse: collapse;
+    }
+
+    td {
+        border: 1px solid black;
+        padding: 3px 5px;
+    }
+</style>
+<body>
+<div>Пользователи:</div>
+<ul>
+    <li>Маша</li>
+    <li>Вовочка</li>
+</ul>
+<table>
+    <tr>
+        <td>1:1</td>
+        <td>2:1</td>
+        <td>3:1</td>
+        <td>4:1</td>
+        <td>5:1</td>
+    </tr>
+    <tr>
+        <td>1:2</td>
+        <td>2:2</td>
+        <td>3:2</td>
+        <td>4:2</td>
+        <td>5:2</td>
+    </tr>
+    <tr>
+        <td>1:3</td>
+        <td>2:3</td>
+        <td>3:3</td>
+        <td>4:3</td>
+        <td>5:3</td>
+    </tr>
+    <tr>
+        <td>1:4</td>
+        <td>2:4</td>
+        <td>3:4</td>
+        <td>4:4</td>
+        <td>5:4</td>
+    </tr>
+    <tr>
+        <td>1:5</td>
+        <td>2:5</td>
+        <td>3:5</td>
+        <td>4:5</td>
+        <td>5:5</td>
+    </tr>
+</table>
+<!-- комментарий -->
+</body>
+<script>
+  //Напишите код, который получит элемент HEAD
+  let head = document.head;
+  console.dir(head);
+
+  //Напишите код, который получит UL.
+  let ul = document.body.children[1];
+  console.dir(ul);
+
+  //Напишите код, который получит второй LI.
+  //Будет ли ваш код работать в IE8-,
+  //если комментарий переместить между элементами LI?
+  let li_2 = ul.childNodes[ul.childNodes.length-2];
+  console.dir(li_2);
+  //Будет работать в IE8-
+
+  //Проверка существования детей
+  //Придумайте самый короткий код для проверки, пуст ли элемент elem
+  let elem = li_2.childNodes[0];
+  if (!elem.childNodes.length) { alert('elem пуст'); }
+
+  //Если elem – это произвольный узел DOM…
+  //Верно ли, что elem.lastChild.nextSibling всегда null?  - Да
+  //Верно ли, что elem.children[0].previousSibling всегда null ?  - Нет
+
+  //Напишите код, который выделит все ячейки в таблице по диагонали.
+  let table = document.body.children[2];
+  for(var i = 0; i < table.rows.length && i < table.rows[0].cells.length; i++) {
+    table.rows[i].cells[i].style.backgroundColor = 'red';
+  }
+
+</script>
+</html>

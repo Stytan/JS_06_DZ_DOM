@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+</head>
+
+<body>
+<form name="search">
+    <label>Поиск по сайту:
+        <input type="text" name="search">
+    </label>
+    <input type="submit" value="Искать!">
+</form>
+
+<hr>
+
+<form name="search-person">
+    Поиск по посетителям:
+    <table id="age-table">
+        <tr>
+            <td>Возраст:</td>
+            <td id="age-list">
+                <label>
+                    <input type="radio" name="age" value="young">до 18</label>
+                <label>
+                    <input type="radio" name="age" value="mature">18-50</label>
+                <label>
+                    <input type="radio" name="age" value="senior">более 50</label>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Дополнительно:</td>
+            <td>
+                <input type="text" name="info[0]">
+                <input type="text" name="info[1]">
+                <input type="text" name="info[2]">
+            </td>
+        </tr>
+
+    </table>
+
+    <input type="submit" value="Искать!">
+</form>
+</body>
+<script>
+    //Найдите (получите в переменную)
+    //Все элементы label внутри таблицы. Должно быть 3 элемента.
+    let labels = document.querySelectorAll("table label");
+    console.log(labels);
+
+    //Первую ячейку таблицы (со словом "Возраст").
+    let td_age = document.getElementsByTagName("td")[0];
+    console.log(td_age);
+
+    //Вторую форму в документе.
+    let second_form = document.getElementsByTagName("form")[1];
+    console.log(second_form);
+
+    //Форму с именем search, без использования её позиции в документе.
+    let search = document.querySelector("form[name='search']");
+    console.log(search);
+
+    //Элемент input в форме с именем search. Если их несколько, то нужен первый.
+    let first_input = search.getElementsByTagName("input")[0];
+    console.log(first_input);
+
+    //Элемент с именем info[0], без точного знания его позиции в документе.
+    let info0 = document.getElementsByName("info[0]")[0];
+    console.log(info0);
+
+    //Элемент с именем info[0], внутри формы с именем search-person.
+    let info_in_form = document.querySelector("form[name='search-person'] [name='info[0]']");
+    console.log(info_in_form);
+
+</script>
+</html>

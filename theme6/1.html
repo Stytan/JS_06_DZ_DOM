@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<xmp>
+    <ul id="menu">
+        <li>Главная страница</li>
+        <li>Форум</li>
+        <li>Магазин</li>
+    </ul>
+</xmp>
+<h3>Что выведет следующий код (простой вопрос)?</h3>
+<pre>
+var lis = document.body.getElementsByTagName('li');
+
+document.body.innerHTML = "";
+
+alert( lis.length );
+</pre>
+<p>Выведет 0</p>
+<h3>А такой код (вопрос посложнее)?</h3>
+<pre>var menu = document.getElementById('menu');
+var lis = menu.getElementsByTagName('li');
+
+document.body.innerHTML = "";
+
+alert( lis.length );</pre>
+<p>Выведет 3, так как в lis сохранится псевдомассив</p>
+<h3>Сравнение количества элементов</h3>
+<pre>var aList1 = document.getElementsByTagName('a');
+var aList2 = document.querySelectorAll('a');</pre>
+<h3>Что произойдёт со значениями aList1.length, aList2.length,
+    если в документе вдруг появится ещё одна ссылка <xmp><a href="#">...</a></xmp>?</h3>
+<p>aList1.length пересчитается заново, т.к. aList1 - живой запрос,
+а aList2.length останется прежним</p>
+<h3>Бенчмаркинг методов поиска в DOM</h3>
+<h4>Какой метод поиска элементов работает быстрее: getElementsByTagName(tag) или querySelectorAll(tag)?</h4>
+<div id="my"></div>
+<p id="getElementsByTagName"></p>
+<p id="querySelectorAll"></p>
+<script>
+    let div = document.getElementById("my");
+
+    let str = '';
+    for (var i = 0; i < 500000; i++) str += '<span></span>';
+
+    div.innerHTML = str;
+
+    var d = new Date;
+    let elementsGet = div.getElementsByTagName('span');
+    var len = elementsGet.length;
+    let d1 = new Date - d;
+
+    div.innerHTML = '';
+    div.innerHTML = str;
+
+    var d = new Date;
+    let elementsQuery = div.querySelectorAll('span');
+    var len = elementsQuery.length;
+    let d2 = new Date - d;
+
+    div.innerHTML = '';
+
+    document.getElementById('getElementsByTagName').innerHTML = "getElementsByTagName: " + d1 + "мс";
+    document.getElementById('querySelectorAll').innerHTML = "querySelectorAll: " + d2 + "мс";
+</script>
+
+<h3>Как наиболее эффективно получить второй LI?</h3>
+<xmp><ul>
+    <li>...</li>
+    <li>...</li>
+    <li>...</li>
+    ...
+</ul></xmp>
+<p>var second_li = ul.children[1] </p>
+
+</body>
+</html>
