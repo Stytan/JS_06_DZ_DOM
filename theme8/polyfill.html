@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Современный DOM: полифиллы</title>
+</head>
+<body>
+<h2>Современный DOM: полифиллы</h2>
+<h3>Полифилл для matches</h3>
+<h4>Создайте полифилл, который гарантирует стандартный синтаксис elem.matches(css) для всех браузеров</h4>
+
+<script>
+  (function() {
+    if (Element.matches === undefined) {
+      var method;
+      if (Element.prototype.matchesSelector)
+        method = Element.prototype.matchesSelector;
+      if (Element.prototype.webkitMatchesSelector)
+        method = Element.prototype.webkitMatchesSelector;
+      if (Element.prototype.mozMatchesSelector)
+        method = Element.prototype.mozMatchesSelector;
+      if (Element.prototype.msMatchesSelector)
+        method = Element.prototype.msMatchesSelector;
+      Element.prototype.matches = method;
+    }
+  })();
+</script>
+
+<h3>Полифилл для closest</h3>
+<h4>Метод elem.closest(css) для поиска ближайшего родителя, удовлетворяющего селектору css, <br>
+    не поддерживается некоторыми браузерами, например IE11-.<br>
+    Создайте для него полифилл</h4>
+<script>
+  (function(ELEMENT) {
+    ELEMENT.closest = ELEMENT.closest || function closest(selector) {
+      if (!this) return null;
+      if (this.matches(selector)) return this;
+      if (!this.parentElement) {return null}
+      else return this.parentElement.closest(selector);
+    };
+  }(Element.prototype));
+</script>
+
+<h3>Полифилл для textContent</h3>
+<script>
+  (function() {
+    if(document.documentElement.textContent === undefined){
+      Object.defineProperty(HTMLDocument.prototype, "textContent", {
+        get: function() {
+          return this.innerText;
+        },
+        set: function(value) {
+          this.innerText = value;
+        }
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>
