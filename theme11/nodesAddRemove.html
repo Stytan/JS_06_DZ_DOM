@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавление и удаление узлов</title>
+</head>
+<style>
+    .task {
+        padding: 10px;
+        border: 1px solid #834a00;
+        color: darkslateblue;
+        background-color: #dedeb9;
+    }
+</style>
+<body>
+<h2>Добавление и удаление узлов</h2>
+
+<div class="task">
+    <h3>createTextNode vs innerHTML</h3>
+    <pre>Есть пустой узел DOM elem.
+Одинаковый ли результат дадут эти скрипты?
+Первый: elem.appendChild(document.createTextNode(text));
+Второй: elem.innerHTML = text;
+Если нет – дайте пример значения text, для которого результат разный.</pre>
+
+    <p>Результат может быть разным если text содержит html, то второй вариант вставит его<br>
+        как html, а первй вариант только как текстовый узел.</p>
+</div>
+
+
+<div class="task">
+    <h3>Удаление элементов</h3>
+    <pre>Напишите полифилл для метода remove для старых браузеров.
+Вызов elem.remove():
+Если у elem нет родителя – ничего не делает.
+Если есть – удаляет элемент из родителя.</pre>
+    <div id="div1">Это</div>
+    <div>Все</div>
+    <div>Элементы DOM</div>
+
+    <script>
+      (function () {
+        if (!Element.prototype.remove) {
+          Element.prototype.remove = function () {
+            if (this.parentNode) this.parentNode.removeChild(this);
+          }
+        }
+      })();
+
+      var elem = document.getElementById('div1');
+      elem.remove();
+    </script>
+</div>
+
+
+<div class="task">
+    <h3>insertAfter</h3>
+    <pre>Напишите функцию insertAfter(elem, refElem),
+которая добавит elem после узла refElem.</pre>
+    <div id="first">Это</div>
+    <div id="second">Элементы</div>
+
+    <script>
+      var elem = document.createElement('div');
+      elem.innerHTML = '<b>Новый элемент</b>';
+
+      function insertAfter(elem, refElem) {
+        return refElem.parentNode.insertBefore(elem, refElem.nextSibling);
+      }
+
+      var body = document.body;
+
+      // вставить elem после первого элемента
+      insertAfter(elem, document.getElementById('first')); // <--- должно работать
+
+      // вставить elem за последним элементом
+      insertAfter(elem, document.getElementById('second')); // <--- должно работать
+    </script>
+</div>
+
+<div class="task">
+    <h3>removeChildren</h3>
+    <pre>Напишите функцию removeChildren, которая удаляет всех потомков элемента.</pre>
+    <table id="table">
+        <tr>
+            <td>Это</td>
+            <td>Все</td>
+            <td>Элементы DOM</td>
+        </tr>
+    </table>
+
+    <ol id="ol">
+        <li>Вася</li>
+        <li>Петя</li>
+        <li>Маша</li>
+        <li>Даша</li>
+    </ol>
+
+    <script>
+      function removeChildren(elem) {
+        var newElem = elem.cloneNode(false);
+        elem.parentNode.replaceChild(newElem, elem);
+      }
+      removeChildren(table); // очищает таблицу
+      removeChildren(ol); // очищает список
+    </script>
+</div>
+
+<div class="task">
+    <h3>Почему остаётся "ааа" ?</h3>
+    <pre>Запустите этот пример. Почему вызов removeChild не удалил текст "aaa"?</pre>
+    <table id="table2">
+        aaa
+        <tr>
+            <td>Test</td>
+        </tr>
+    </table>
+
+    <script>
+      var table = document.getElementById('table2');
+      alert(table); // таблица, пока всё правильно
+      table.remove();
+      // почему в документе остался текст?
+    </script>
+
+    <p>Текст ааа остался потому что был ошибочно добавлен в html и вынесен браузером за table</p>
+</div>
+
+
+<div class="task">
+    <h3>Создать список</h3>
+    <pre>Напишите интерфейс для создания списка.
+
+Для каждого пункта:
+Запрашивайте содержимое пункта у пользователя с помощью prompt.
+Создавайте пункт и добавляйте его к UL.
+Процесс прерывается, когда пользователь нажимает ESC или вводит пустую строку.
+Все элементы должны создаваться динамически.
+
+Если посетитель вводит теги – пусть в списке они показываются как обычный текст.</pre>
+
+    <script>
+      //TODO
+    </script>
+</div>
+
+
+<div class="task">
+    <h3>Создайте дерево из объекта</h3>
+    <xmp>Напишите функцию, которая создаёт вложенный список UL/LI (дерево) из объекта.
+
+        Выберите один из двух способов решения этой задачи:
+
+        Создать строку, а затем присвоить через container.innerHTML.
+        Создавать узлы через методы DOM.
+        Если получится – сделайте оба.
+
+        P.S. Желательно, чтобы в дереве не было лишних элементов, в частности – пустых
+        <ul></ul>
+        на нижнем уровне.
+    </xmp>
+
+    <script>
+      var data = {
+        "Рыбы": {
+          "Форель": {},
+          "Щука": {}
+        },
+
+        "Деревья": {
+          "Хвойные": {
+            "Лиственница": {},
+            "Ель": {}
+          },
+          "Цветковые": {
+            "Берёза": {},
+            "Тополь": {}
+          }
+        }
+      };
+
+      function createTree(container, data) {
+        //TODO
+      }
+
+      var container = document.getElementById('container');
+      createTree(container, data); // создаёт
+    </script>
+</div>
+
+
+<div class="task">
+    <h3>Дерево</h3>
+    <xmp>Есть дерево, организованное в виде вложенных списков
+        <ul>/
+            <li>.
+            Напишите код, который добавит каждому элементу списка
+            <li> количество вложенных в него элементов.
+            Узлы нижнего уровня, без детей – пропускайте.
+    </xmp>
+</div>
+
+
+<div class="task">
+    <h3>Создать календарь в виде таблицы</h3>
+    <xmp>Напишите функцию, которая умеет генерировать календарь для заданной пары (месяц, год).
+        Календарь должен быть таблицей, где каждый день – это TD.
+        У таблицы должен быть заголовок с названиями дней недели, каждый день – TH.
+        Синтаксис: createCalendar(id, year, month).
+        Такой вызов должен генерировать текст для календаря месяца month в году year,
+        а затем помещать его внутрь элемента с указанным id.
+    </xmp>
+
+    <script>
+      //todo
+    </script>
+</div>
+
+
+<div class="task">
+    <h3>Часики с использованием "setInterval"</h3>
+    <pre>Создайте цветные часики как в примере</pre>
+    <script>
+      //TODO
+    </script>
+</div>
+</body>
+</html>
