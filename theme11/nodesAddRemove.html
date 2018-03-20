@@ -11,6 +11,21 @@
         color: darkslateblue;
         background-color: #dedeb9;
     }
+    table {
+        border-collapse: collapse;
+    }
+
+    td,
+    th {
+        border: 1px solid black;
+        padding: 3px;
+        text-align: center;
+    }
+
+    th {
+        font-weight: bold;
+        background-color: #E6E6E6;
+    }
 </style>
 <body>
 <h2>Добавление и удаление узлов</h2>
@@ -101,6 +116,7 @@
         var newElem = elem.cloneNode(false);
         elem.parentNode.replaceChild(newElem, elem);
       }
+
       removeChildren(table); // очищает таблицу
       removeChildren(ol); // очищает список
     </script>
@@ -138,9 +154,16 @@
 Все элементы должны создаваться динамически.
 
 Если посетитель вводит теги – пусть в списке они показываются как обычный текст.</pre>
-
+    <div id="myUL"></div>
     <script>
-      //TODO
+      var text;
+      while (true) {
+        text = prompt('Введите новый пункт', '');
+        if (!text || text == '') break;
+        var li = document.createElement('li');
+        li.innerText = text;
+        myUL.appendChild(li);
+      }
     </script>
 </div>
 
@@ -160,6 +183,7 @@
         на нижнем уровне.
     </xmp>
 
+    <div id="container"></div>
     <script>
       var data = {
         "Рыбы": {
@@ -180,7 +204,18 @@
       };
 
       function createTree(container, data) {
-        //TODO
+        if (Object.keys(data).length) {
+          var list = document.createElement('ul');
+          for (var key in data) {
+            var elem = document.createElement('li');
+            elem.innerText = key;
+            list.appendChild(elem);
+            if (Object.keys(data[key]).length) {
+              list.appendChild(createTree(list, data[key]));
+            }
+          }
+        }
+        return container.appendChild(list);
       }
 
       var container = document.getElementById('container');
@@ -192,27 +227,120 @@
 <div class="task">
     <h3>Дерево</h3>
     <xmp>Есть дерево, организованное в виде вложенных списков
-        <ul>/
-            <li>.
-            Напишите код, который добавит каждому элементу списка
-            <li> количество вложенных в него элементов.
-            Узлы нижнего уровня, без детей – пропускайте.
+<ul>/<li>.
+Напишите код, который добавит каждому элементу списка
+<li> количество вложенных в него элементов.
+Узлы нижнего уровня, без детей – пропускайте.
     </xmp>
-</div>
 
+    <ul id="treeUl">
+        <li>Животные
+            <ul>
+                <li>Млекопитающие
+                    <ul>
+                        <li>Коровы</li>
+                        <li>Ослы</li>
+                        <li>Собаки</li>
+                        <li>Тигры</li>
+                    </ul>
+                </li>
+                <li>Другие
+                    <ul>
+                        <li>Змеи</li>
+                        <li>Птицы</li>
+                        <li>Ящерицы</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li>Рыбы
+            <ul>
+                <li>Аквариумные
+                    <ul>
+                        <li>Гуппи</li>
+                        <li>Скалярии</li>
+                    </ul>
+
+                </li>
+                <li>Морские
+                    <ul>
+                        <li>Морская форель</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+    <script>
+      var treeUl = document.getElementById('treeUl');
+      function setTreeCounts(root) {
+        var allLis = root.getElementsByTagName('li');
+        for(var i = 0; i < allLis.length; i++) {
+          var count = allLis[i].getElementsByTagName('li').length;
+          if(count) {
+            var textNode = allLis[i].childNodes[0];
+            textNode.data += '[' + count + ']';
+          }
+        }
+      }
+      setTreeCounts(treeUl);
+    </script>
+</div>
 
 <div class="task">
     <h3>Создать календарь в виде таблицы</h3>
     <xmp>Напишите функцию, которая умеет генерировать календарь для заданной пары (месяц, год).
-        Календарь должен быть таблицей, где каждый день – это TD.
-        У таблицы должен быть заголовок с названиями дней недели, каждый день – TH.
-        Синтаксис: createCalendar(id, year, month).
-        Такой вызов должен генерировать текст для календаря месяца month в году year,
-        а затем помещать его внутрь элемента с указанным id.
+Календарь должен быть таблицей, где каждый день – это TD.
+У таблицы должен быть заголовок с названиями дней недели, каждый день – TH.
+Синтаксис: createCalendar(id, year, month).
+Такой вызов должен генерировать текст для календаря месяца month в году year,
+а затем помещать его внутрь элемента с указанным id.
     </xmp>
 
+    <div id = 'calendar'></div>
     <script>
-      //todo
+      function createCalendar(id, year, month) {
+        var root = document.getElementById(id);
+
+        var date = new Date(year,month);
+
+        var table = document.createElement('table');
+
+        var row = document.createElement('tr');
+        table.appendChild(row);
+        var days = ['пн','вт','ср','чт','пт','сб','вс'];
+        for(var i = 0; i < days.length; i++){
+          var th = document.createElement('th');
+          th.textContent = days[i];
+          row.appendChild(th);
+        }
+
+        var counter = 0;
+        var delta = date.getDay()-1;
+        var td = document.createElement('td');
+
+        while(counter % 7 || date.getMonth() === month) {
+
+          if(!(counter % 7)) {
+            row = row.cloneNode(false);
+            table.appendChild(row);
+          }
+
+          if(counter < delta || date.getMonth() !== month) {
+            row.appendChild(td.cloneNode(false));
+          } else {
+            td.innerText = date.getDate();
+            row.appendChild(td);
+            td = td.cloneNode(false);
+            date.setDate(date.getDate() + 1);
+          }
+
+          counter++;
+        }
+
+        root.appendChild(table);
+      }
+      createCalendar('calendar',2017,6);
     </script>
 </div>
 
