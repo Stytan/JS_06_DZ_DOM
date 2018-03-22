@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Свойства узлов: тип, тег и содержимое</title>
+</head>
+<body>
+<h2>Свойства узлов: тип, тег и содержимое</h2>
+<h3>Что выведет скрипт на этой странице?</h3>
+<xmp><!DOCTYPE HTML>
+    <html>
+
+    <body>
+    <script>
+      alert( document.body.lastChild.nodeType );
+    </script>
+    </body>
+
+    </html></xmp>
+<p>Выведет 1 - блок скрипта</p>
+
+<h3>Что выведет этот код?</h3>
+<xmp><script>
+  var body = document.body;
+
+  body.innerHTML = "<!--" + body.tagName + "-->";
+
+  alert( body.firstChild.data ); // что выведет?
+</script></xmp>
+<p>Выведет содержимое комментария с BODY внутри</p>
+
+<h3>Где в DOM-иерархии document?</h3>
+<pre>Объектом какого класса является document?
+Какое место он занимает в DOM-иерархии?
+Наследует ли он Node или Element?
+Воспользуйтесь для решения тем фактом, что DOM-узлы образуют стандартную прототипную иерархию классов.</pre>
+<p>document - объект класса HTMLDocument</p>
+<p>document наследует HTMLDocument - Document - Node - EventTarget - Object</p>
+</body>
+</html>
