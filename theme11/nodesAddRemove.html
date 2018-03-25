@@ -348,8 +348,39 @@
 <div class="task">
     <h3>Часики с использованием "setInterval"</h3>
     <pre>Создайте цветные часики как в примере</pre>
+    <div id="clock">
+        <input type="button" onclick="clockStart()" value="Start">
+
+        <input type="button" onclick="clockStop()" value="Stop">
+    </div>
     <script>
-      //TODO
+      var div = document.getElementById("clock");
+      var clock = document.createElement("div");
+      clock.appendChild(document.createElement("span"));
+      clock.appendChild(document.createTextNode(":"));
+      clock.appendChild(document.createElement("span"));
+      clock.appendChild(document.createTextNode(":"));
+      clock.appendChild(document.createElement("span"));
+      var date = new Date();
+      clock.children[0].setAttribute("style", "color:red");
+      clock.children[0].textContent = ("0" + date.getHours()).slice(-2);
+      clock.children[1].setAttribute("style", "color:green");
+      clock.children[1].textContent = ("0" + date.getMinutes()).slice(-2);
+      clock.children[2].setAttribute("style", "color:blue");
+      clock.children[2].textContent = ("0" + date.getSeconds()).slice(-2);
+      div.appendChild(clock);
+      var timer;
+      function clockStart() {
+        timer = setInterval(function() {
+          date = new Date();
+          clock.children[0].textContent = ("0" + date.getHours()).slice(-2);
+          clock.children[1].textContent = ("0" + date.getMinutes()).slice(-2);
+          clock.children[2].textContent = ("0" + date.getSeconds()).slice(-2);
+        }, 1000);
+      }
+      function clockStop() {
+        clearInterval(timer);
+      }
     </script>
 </div>
 </body>
